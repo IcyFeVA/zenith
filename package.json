@@ -1,0 +1,27 @@
+{
+  "name": "zenith-dashboard",
+  "version": "1.0.0",
+  "description": "A self-hosted, ad-free news aggregator for AI, tech, gadgets, and open-source projects.",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && node index.js",
+    "client": "cd client && npm run dev"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "sqlite3": "^5.1.6",
+    "rss-parser": "^3.13.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "vite": "^4.4.9",
+    "concurrently": "^8.2.0"
+  },
+  "keywords": ["news", "aggregator", "rss", "react", "express"],
+  "author": "",
+  "license": "MIT"
+}

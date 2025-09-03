@@ -21,6 +21,26 @@ db.serialize(() => {
     is_read INTEGER DEFAULT 0,
     FOREIGN KEY (source_id) REFERENCES sources(id)
   )`);
+
+  // Insert sample sources if none exist
+  db.get("SELECT COUNT(*) as count FROM sources", (err, row) => {
+    if (row.count === 0) {
+      const sampleSources = [
+        { name: 'CNN', url: 'http://rss.cnn.com/rss/edition.rss' },
+        { name: 'BBC News', url: 'http://feeds.bbci.co.uk/news/rss.xml' },
+        { name: 'TechCrunch', url: 'https://techcrunch.com/feed/' },
+        { name: 'Wired', url: 'https://www.wired.com/feed/rss' }
+      ];
+      sampleSources.forEach((source, index) => {
+        db.run('INSERT INTO sources (name, url) VALUES (?, ?)', [source.name, source.url], function() {
+          // Insert a dummy article for each source
+          const sourceId = this.lastID;
+          db.run('INSERT OR IGNORE INTO articles (source_id, title, link, published_date) VALUES (?, ?, ?, ?)',
+            [sourceId, `Sample Article from ${source.name}`, `https://example.com/${index}`, new Date().toISOString()]);
+        });
+      });
+    }
+  });
 });
 
 module.exports = db;

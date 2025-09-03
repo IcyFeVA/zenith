@@ -1,12 +1,15 @@
 import React from 'react';
 import ArticleCard from './ArticleCard';
 
-const Column = ({ sourceId, articles }) => {
+const Column = ({ source, articles, onToggleSave, onDeleteSource }) => {
   return (
     <div className="column">
-      <h2>Source {sourceId}</h2>
-      {articles.map((article, index) => (
-        <ArticleCard key={index} article={article} />
+      <div className="column-header">
+        <h2>{source.name}</h2>
+        <button onClick={() => onDeleteSource(source.id)} className="delete-btn">Delete</button>
+      </div>
+      {articles.map((article) => (
+        <ArticleCard key={article.id} article={article} onToggleSave={onToggleSave} />
       ))}
     </div>
   );
